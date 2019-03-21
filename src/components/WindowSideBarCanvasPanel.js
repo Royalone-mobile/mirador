@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import { CanvasThumbnail } from './CanvasThumbnail';
 import ManifestoCanvas from '../lib/ManifestoCanvas';
 import CompanionWindow from '../containers/CompanionWindow';
+import TableOfContentsTree from '../containers/TableOfContentsTree';
 
 /**
  * a panel showing the canvases for a given manifest
@@ -19,7 +20,7 @@ export class WindowSideBarCanvasPanel extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { variant: 'thumbnail' };
+    this.state = { variant: 'toc' };
     this.handleVariantChange = this.handleVariantChange.bind(this);
   }
 
@@ -96,7 +97,6 @@ export class WindowSideBarCanvasPanel extends Component {
 
     const { variant } = this.state;
 
-
     const canvasesIdAndLabel = this.getIdAndLabelOfCanvases(canvases);
     return (
       <CompanionWindow
@@ -120,33 +120,45 @@ export class WindowSideBarCanvasPanel extends Component {
               classes={{ select: classes.select }}
               className={classes.selectEmpty}
             >
+              <MenuItem value="toc"><Typography variant="body2">Table of Contents</Typography></MenuItem>
               <MenuItem value="compact"><Typography variant="body2">{ t('compactList') }</Typography></MenuItem>
               <MenuItem value="thumbnail"><Typography variant="body2">{ t('thumbnailList') }</Typography></MenuItem>
             </Select>
           </FormControl>
           )}
       >
-        <List>
-          {
-            canvasesIdAndLabel.map((canvas, canvasIndex) => {
-              const onClick = () => { setCanvas(windowId, canvasIndex); }; // eslint-disable-line require-jsdoc, max-len
 
-              return (
-                <ListItem
-                  key={canvas.id}
-                  className={classes.listItem}
-                  alignItems="flex-start"
-                  onClick={onClick}
-                  button
-                  component="li"
-                >
-                  {variant === 'compact' && this.renderCompact(canvas, canvases[canvasIndex])}
-                  {variant === 'thumbnail' && this.renderThumbnail(canvas, canvases[canvasIndex])}
-                </ListItem>
-              );
-            })
-          }
-        </List>
+        {
+          variant === 'toc' && (
+            <TableOfContentsTree
+              windowId={windowId}
+            />
+          )
+        }
+
+        { variant !== 'toc' && (
+          <List>
+            {
+              canvasesIdAndLabel.map((canvas, canvasIndex) => {
+                const onClick = () => { setCanvas(windowId, canvasIndex); }; // eslint-disable-line require-jsdoc, max-len
+
+                return (
+                  <ListItem
+                    key={canvas.id}
+                    className={classes.listItem}
+                    alignItems="flex-start"
+                    onClick={onClick}
+                    button
+                    component="li"
+                  >
+                    {variant === 'compact' && this.renderCompact(canvas, canvases[canvasIndex])}
+                    {variant === 'thumbnail' && this.renderThumbnail(canvas, canvases[canvasIndex])}
+                  </ListItem>
+                );
+              })
+            }
+          </List>
+        )}
       </CompanionWindow>
     );
   }

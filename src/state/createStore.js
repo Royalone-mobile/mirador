@@ -9,7 +9,6 @@ import createDebounce from 'redux-debounced';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createRootReducer from './reducers/rootReducer';
 
-
 /**
  * Configure Store
  */

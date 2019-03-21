@@ -166,3 +166,16 @@ export const getManifestMetadata = createSelector(
   [getManifestoInstance],
   manifest => manifest && getDestructuredMetadata(manifest),
 );
+
+/**
+ * Return manifest structures/ranges
+ * @param {object} state
+ * @param {object} props
+ * @param {string} props.manifestId
+ * @param {string} props.windowId
+ * @return {Array[Object]}
+ */
+export const getManifestStructures = createSelector(
+  [getManifestoInstance],
+  manifest => (manifest ? manifest.getTopRanges() : []),
+);
