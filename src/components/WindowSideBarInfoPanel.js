@@ -31,6 +31,7 @@ export class WindowSideBarInfoPanel extends Component {
       locale,
       setLocale,
       availableLocales,
+      showLocalePicker,
     } = this.props;
 
     return (
@@ -40,7 +41,14 @@ export class WindowSideBarInfoPanel extends Component {
         windowId={windowId}
         id={id}
         titleControls={(
-          <LocalePicker locale={locale} setLocale={setLocale} availableLocales={availableLocales} />
+          showLocalePicker
+            && (
+            <LocalePicker
+              locale={locale}
+              setLocale={setLocale}
+              availableLocales={availableLocales}
+            />
+            )
         )}
       >
         <div className={classes.section}>
@@ -101,6 +109,7 @@ WindowSideBarInfoPanel.propTypes = {
   manifestLabel: PropTypes.string,
   manifestMetadata: PropTypes.array, // eslint-disable-line react/forbid-prop-types
   setLocale: PropTypes.func,
+  showLocalePicker: PropTypes.bool,
   t: PropTypes.func,
   windowId: PropTypes.string.isRequired,
 };
@@ -116,5 +125,6 @@ WindowSideBarInfoPanel.defaultProps = {
   manifestLabel: null,
   manifestMetadata: [],
   setLocale: undefined,
+  showLocalePicker: false,
   t: key => key,
 };
